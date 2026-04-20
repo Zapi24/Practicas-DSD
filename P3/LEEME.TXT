@@ -1,0 +1,79 @@
+
+GUÍA DE EJECUCIÓN - PRÁCTICA 3: RMI (SISTEMA DE DONACIONES)
+
+
+Este archivo contiene las instrucciones rápidas para ejecutar el proyecto final.
+
+Para más detalles, explicaciones del código y capturas de 
+los Ejemplos 1, 2 y 3, por favor consulte el documento: 
+"Práctica 3_ RMI.pdf" incluido en esta entrega.
+
+
+0. ACLARACIÓN IMPORTANTE: VERSIONES DE JAVA
+
+Dependiendo de la versión de Java que utilice para evaluar la práctica, 
+el uso de 'SecurityManager' (requerido en el guion) puede lanzar una 
+excepción bloqueante en versiones modernas. 
+
+Por este motivo, en las instrucciones de ejecución se proporcionan DOS 
+versiones para cada comando:
+[Opción A] Versión Estándar: Para versiones de Java antiguas.
+[Opción B] Versión Moderna: Incluye el flag '-Djava.security.manager=allow' 
+           para evitar bloqueos en versiones recientes de Java.
+
+
+1. LIMPIEZA Y COMPILACIÓN (Opcional)
+
+El proyecto ya se entrega compilado (archivos .class incluidos). A priori 
+no es necesario recompilar. Sin embargo, si experimenta algún error o desea compilar desde cero, ejecute lo siguiente desde la raíz:
+
+------------------------------------------------------------------------
+cd Practica3_Donaciones/src
+killall rmiregistry java
+javac interfaces/*.java servidor/*.java cliente/*.java
+------------------------------------------------------------------------
+
+
+2. EJECUCIÓN DEL SISTEMA (Requiere 3 Terminales)
+
+Para probar el sistema replicado, abra 3 terminales distintas y 
+sitúese en todas ellas en la carpeta fuente del proyecto:
+
+------------------------------------------------------------------------
+cd Practica3_Donaciones/src
+------------------------------------------------------------------------
+
+
+- TERMINAL 1 (Desplegar Réplica 1)
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+[Opción A - Java Antiguo]:
+java -cp . -Djava.security.policy=servidor/server.policy servidor.LanzadorServidor 1099 Replica1 rmi://localhost:1100/Replica2
+
+[Opción B - Java Moderno]:
+java -Djava.security.manager=allow -cp . -Djava.security.policy=servidor/server.policy servidor.LanzadorServidor 1099 Replica1 rmi://localhost:1100/Replica2
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+- TERMINAL 2 (Desplegar Réplica 2)
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+[Opción A - Java Antiguo]:
+java -cp . -Djava.security.policy=servidor/server.policy servidor.LanzadorServidor 1100 Replica2 rmi://localhost:1099/Replica1
+
+[Opción B - Java Moderno]:
+java -Djava.security.manager=allow -cp . -Djava.security.policy=servidor/server.policy servidor.LanzadorServidor 1100 Replica2 rmi://localhost:1099/Replica1
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+- TERMINAL 3 (Lanzar Cliente)
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+[Opción A - Java Antiguo]:
+java -cp . -Djava.security.policy=cliente/client.policy cliente.Cliente
+
+[Opción B - Java Moderno]:
+java -Djava.security.manager=allow -cp . -Djava.security.policy=cliente/client.policy cliente.Cliente
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+Gracias por su tiempo, toda la documentación esta en el PDF.
+
