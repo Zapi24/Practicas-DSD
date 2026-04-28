@@ -65,38 +65,38 @@ public class ServidorDonaciones extends UnicastRemoteObject implements IDonacion
             }
         }
 
-        // 3. Registrar donde corresponda de forma transparente
+        // 3. Registrar donde corresponda 
         if (mejorReplicaUrl == null) {
-            // Me lo quedo yo porque soy el que menos tiene (o hay empate)
+            // Me lo quedo yo porque soy el que menos tiene
             registrarClienteLocal(idCliente);
             return this.nombreReplica;
         } else {
-            // Se lo paso a la otra réplica de forma transparente
+            // Se lo paso a la otra réplica 
             try {
                 IDonaciones replicaDestino = (IDonaciones) Naming.lookup(mejorReplicaUrl);
                 replicaDestino.registrarClienteLocal(idCliente);
                 System.out.println("Cliente " + idCliente + " redirigido a " + mejorReplicaUrl);
-                // Extraemos el nombre de la réplica 
                 return mejorReplicaUrl;
             } catch (Exception e) {
-                // Si falla en el último momento, me lo quedo yo
+                // Si falla, me lo quedo yo
                 registrarClienteLocal(idCliente);
                 return this.nombreReplica;
             }
         }
     }
 
+    // Este método solo interactua con los datos locales, si el cliente no se encuntra en la replica local devuelve false
     @Override
     public boolean donar(String idCliente, double cantidad) throws RemoteException {
-        // REQUISITO 2: Comprobar registro local
+        // REQUISITO 2: Comprobar regitro local
         if (!clientesLocales.containsKey(idCliente)) {
             return false; 
         }
         
-        // Sumamos a su cuenta personal y al subtotal de esta réplica
+        // Sumamos la cuenta personal y al subtotal de esta réplica
         double donadoHastaAhora = clientesLocales.get(idCliente);
-        clientesLocales.put(idCliente, donadoHastaAhora + cantidad);
-        subtotalLocal += cantidad;
+        clientesLocales.put(idCliente, donadoHastaAhora + cantidad);    // Suma el dinero en su cuenta 
+        subtotalLocal += cantidad;  //Actualizamos el valor de la variable tambien
         
         System.out.println("Donacion de " + cantidad + " recibida de " + idCliente);
         return true;

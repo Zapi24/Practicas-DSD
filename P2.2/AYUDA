@@ -13,6 +13,6 @@ thrift -gen py calculadora.thrift
 Despues ejecutamos primero por un lado el servidor en una terminar, y en otro el cliente:
 
     python gen-py/servidor.py 
-    python gen.py/cliente.py
+    python gen-py/cliente.py
 
 
