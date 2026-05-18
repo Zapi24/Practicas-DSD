@@ -34,14 +34,14 @@ def solicitar_matriz(nombre):
                 fila = input(f"Fila {i}: ").strip()
                 elementos = list(map(float, fila.split()))
                 if len(elementos) == columnas:
-                    matriz.append(elementos) #Agregamos un elemento al final
+                    matriz.append(elementos) #Agregamos un elemento al final como una nueva fila
                     fila_valida = True
                 else:
                     print(f"Error: La fila debe tener {columnas} valores.")
             except ValueError:
                 print("Error: Ingrese solo números enteros separados por espacios.")
 
-    matriz_str = ";".join(" ".join(map(str, fila)) for fila in matriz)
+    matriz_str = ";".join(" ".join(map(str, fila)) for fila in matriz) # Transformamos la matriz en una con las fila separadas por ;
     return matriz_str, filas, columnas
 
 print("hacemos ping al server")

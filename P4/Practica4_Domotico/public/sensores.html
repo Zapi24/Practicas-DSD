@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Pantalla de Sensores</title>
+    <link rel="stylesheet" href="/estilos.css">
+</head>
+<body>
+    <div class="contenedor">
+        <header>
+            <h1>Simulador de Entorno Exterior</h1>
+            <p>Utilice esta pagina para insertar datos de prueba en el sistema.</p>
+        </header>
+
+        <div class="panel">
+            <h3>Modificar Temperatura Exterior</h3>
+            <p>Valor actual: <span id="sim-valor-temp">22</span> C</p>
+            <input type="range" id="input-temp" min="-5" max="45" value="22">
+        </div>
+
+        <div class="panel">
+            <h3>Modificar Luminosidad Exterior</h3>
+            <p>Valor actual: <span id="sim-valor-luz">50</span> %</p>
+            <input type="range" id="input-luz" min="0" max="100" value="50">
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        const inputTemp = document.getElementById('input-temp');
+        const spanTemp = document.getElementById('sim-valor-temp');
+        const inputLuz = document.getElementById('input-luz');
+        const spanLuz = document.getElementById('sim-valor-luz');
+
+        inputTemp.addEventListener('input', (e) => {
+            const valor = parseInt(e.target.value);
+            spanTemp.textContent = valor;
+            socket.emit('cambio-sensor', { tipo: 'temp', valor: valor });
+        });
+
+        inputLuz.addEventListener('input', (e) => {
+            const valor = parseInt(e.target.value);
+            spanLuz.textContent = valor;
+            socket.emit('cambio-sensor', { tipo: 'luz', valor: valor });
+        });
+
+        socket.on('actualizar-estado', (estado) => {
+            inputTemp.value = estado.temp;
+            spanTemp.textContent = estado.temp;
+            inputLuz.value = estado.luz;
+            spanLuz.textContent = estado.luz;
+        });
+    </script>
+</body>
+</html>

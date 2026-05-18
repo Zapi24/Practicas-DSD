@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Pantalla del Usuario</title>
+    <link rel="stylesheet" href="/estilos.css">
+</head>
+<body>
+    <div class="contenedor">
+        <header>
+            <h1>Panel de Control</h1>
+            <p>Sistema domotico centralizado</p>
+        </header>
+
+        <div id="caja-alertas" class="panel panel-alertas">
+            <h3>Alertas del Sistema</h3>
+            <ul id="lista-alertas" class="lista-limpia">
+                <li>Todo correcto por ahora.</li>
+            </ul>
+        </div>
+
+        <div class="panel">
+            <h3>Estado Actual</h3>
+            <ul class="lista-limpia">
+                <li>Temperatura Interior: <span id="valor-temp">--</span> C</li>
+                <li>Luminosidad Interior: <span id="valor-luz">--</span> %</li>
+            </ul>
+        </div>
+
+        <div class="panel">
+            <h3>Control Manual de Dispositivos</h3>
+            
+            <div class="fila-control">
+                <span>Persiana: <span id="estado-persiana">Desconocido</span></span>
+                <button id="btn-persiana" class="btn">Alternar Estado</button>
+            </div>
+            
+            <div class="fila-control">
+                <span>Aire Acondicionado: <span id="estado-ac">Desconocido</span></span>
+                <button id="btn-ac" class="btn">Alternar Estado</button>
+            </div>
+            
+            <div class="fila-control">
+                <span>Ventana: <span id="estado-ventana">Desconocido</span></span>
+                <button id="btn-ventana" class="btn">Alternar Estado</button>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3>Historial de Eventos</h3>
+            <ul id="lista-historial" class="lista-limpia caja-historial">
+                <li>Esperando conexion con el servidor...</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        const valTemp = document.getElementById('valor-temp');
+        const valLuz = document.getElementById('valor-luz');
+        const estPersiana = document.getElementById('estado-persiana');
+        const estAc = document.getElementById('estado-ac');
+        const estVentana = document.getElementById('estado-ventana');
+        const listaAlertas = document.getElementById('lista-alertas');
+        const listaHistorial = document.getElementById('lista-historial');
+
+        document.getElementById('btn-persiana').addEventListener('click', () => {
+            socket.emit('comando-manual', 'persiana');
+        });
+        document.getElementById('btn-ac').addEventListener('click', () => {
+            socket.emit('comando-manual', 'ac');
+        });
+        document.getElementById('btn-ventana').addEventListener('click', () => {
+            socket.emit('comando-manual', 'ventana');
+        });
+
+        socket.on('actualizar-estado', (estado) => {
+            valTemp.textContent = estado.temp;
+            valLuz.textContent = estado.luz;
+            
+            estPersiana.textContent = estado.persiana ? "Abierta" : "Cerrada";
+            estAc.textContent = estado.ac ? "Encendido" : "Apagado";
+            estVentana.textContent = estado.ventana ? "Abierta" : "Cerrada";
+        });
+
+        socket.on('actualizar-alertas', (alertas) => {
+            listaAlertas.innerHTML = ''; 
+            alertas.forEach(alerta => {
+                const li = document.createElement('li');
+                li.textContent = alerta;
+                listaAlertas.appendChild(li);
+            });
+        });
+
+        socket.on('historial-completo', (registros) => {
+            listaHistorial.innerHTML = ''; 
+            registros.forEach(registro => {
+                anadirEventoALaLista(registro);
+            });
+        });
+
+        socket.on('nuevo-evento', (registro) => {
+            anadirEventoALaLista(registro);
+        });
+
+        function anadirEventoALaLista(registro) {
+            const li = document.createElement('li');
+            const fechaFormateada = new Date(registro.fecha).toLocaleString('es-ES');
+            li.textContent = `[${fechaFormateada}] - ${registro.accion}`;
+            listaHistorial.prepend(li);
+        }
+    </script>
+</body>
+</html>

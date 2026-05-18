@@ -1,0 +1,129 @@
+/* Variables globales para colores limpios y modernos */
+:root {
+    --fondo-principal: #f4f6f8;
+    --fondo-panel: #ffffff;
+    --texto-oscuro: #333333;
+    --texto-claro: #666666;
+    --borde: #e0e0e0;
+    --color-primario: #007bff;
+    --color-alerta-fondo: #fff3f3;
+    --color-alerta-borde: #ffcccc;
+    --color-alerta-texto: #cc0000;
+}
+
+/* Estilos base del cuerpo */
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: var(--fondo-principal);
+    color: var(--texto-oscuro);
+    margin: 0;
+    padding: 30px 15px;
+    display: flex;
+    justify-content: center; /* Centra el contenedor principal */
+}
+
+/* Contenedor Grid principal (reutilizado en ambas pantallas) */
+.contenedor {
+    width: 100%;
+    max-width: 800px;
+    display: grid;
+    gap: 20px; /* Separacion entre paneles */
+}
+
+/* Cabecera */
+header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+header h1 {
+    margin: 0 0 5px 0;
+}
+
+header p {
+    color: var(--texto-claro);
+    margin: 0;
+}
+
+/* Paneles blancos (Tarjetas) */
+.panel {
+    background-color: var(--fondo-panel);
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.panel h3 {
+    margin-top: 0;
+    border-bottom: 1px solid var(--borde);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+/* Panel especifico para alertas */
+.panel-alertas {
+    background-color: var(--color-alerta-fondo);
+    border-color: var(--color-alerta-borde);
+}
+
+.panel-alertas h3 {
+    color: var(--color-alerta-texto);
+    border-bottom-color: var(--color-alerta-borde);
+}
+
+/* Listas limpias sin puntos */
+.lista-limpia {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lista-limpia li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--fondo-principal);
+}
+
+.lista-limpia li:last-child {
+    border-bottom: none;
+}
+
+/* Flexbox para alinear texto y botones en los controles */
+.fila-control {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--fondo-principal);
+}
+
+/* Botones modernos */
+.btn {
+    background-color: var(--color-primario);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Personalizacion de la barra de rango (Simulador) */
+input[type=range] {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Caja del historial con limite de altura y scroll */
+.caja-historial {
+    max-height: 250px;
+    overflow-y: auto;
+    background-color: var(--fondo-principal);
+    padding: 10px;
+    border-radius: 4px;
+}
