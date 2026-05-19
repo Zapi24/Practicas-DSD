@@ -77,7 +77,7 @@ const chatId = 'introduce aqui el id del caht';
 let bot = new TelegramBot(token, {polling: false});
 console.log("Bot de Telegram configurado y listo para avisar.");
 
-
+cl
 // Función principal del agente
 function evaluarAgente(){
     let alertas = [];
