@@ -72,12 +72,11 @@ let estadoCasa={
 
 //Integración con Api Telegram
 // Configuración directa de Telegram (¡ACUÉRDATE DE BORRAR LOS NÚMEROS AL ENTREGAR!)
-const token = 'introduce aqui el token del bot'; 
-const chatId = 'introduce aqui el id del caht';
-let bot = new TelegramBot(token, {polling: false});
+const token = '8979468839:AAGgQw8SSpMvY_l-B0zj1EibaVwzeNCcRm0'; 
+const chatId = '5754196046';
+let bot = new TelegramBot(token, {polling: false}); // El polling false es para que no escuche lo que le escribimos, solo envía datos
 console.log("Bot de Telegram configurado y listo para avisar.");
 
-cl
 // Función principal del agente
 function evaluarAgente(){
     let alertas = [];
